@@ -3,3 +3,4 @@ playwright==1.49.0
 SQLAlchemy==2.0.36
 aiofiles==24.1.0
 python-dotenv==1.0.1
+requests==2.32.3

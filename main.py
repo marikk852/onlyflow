@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import sys
 from pathlib import Path
 
 from aiogram import Bot, Dispatcher
@@ -8,6 +9,7 @@ from aiogram.enums import ParseMode
 
 import config
 import database as db
+import license
 from bot.handlers import admin, content, upload
 
 # ── Логирование ───────────────────────────────────────────────────────────────
@@ -24,6 +26,18 @@ logger = logging.getLogger("contentflow")
 
 
 async def main():
+    # ── Проверка лицензии ─────────────────────────────────────────────────────
+    result = license.validate()
+    if not result["ok"]:
+        # Пробуем активировать (первый запуск)
+        result = license.activate()
+        if not result["ok"]:
+            logger.error(f"Лицензия не валидна: {result['error']}")
+            sys.exit(1)
+        logger.info(f"Лицензия активирована для агентства: {result['agency']}")
+    else:
+        logger.info(f"Лицензия валидна. Агентство: {result['agency']}")
+
     db.init_db()
     logger.info("База данных инициализирована.")
 
