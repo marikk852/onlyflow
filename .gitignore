@@ -1,0 +1,11 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.env
+contentflow.db
+downloads/
+profiles/
+logs/
+uploads/
