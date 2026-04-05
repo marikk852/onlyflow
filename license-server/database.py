@@ -5,7 +5,7 @@ from typing import Optional
 from sqlalchemy import Boolean, DateTime, Integer, String, Text, create_engine, select, update
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 
-DATABASE_URL = os.environ["DATABASE_URL"]
+DATABASE_URL = os.environ["DATABASE_URL"].replace("postgresql://", "postgresql+psycopg://")
 engine = create_engine(DATABASE_URL)
 
 
