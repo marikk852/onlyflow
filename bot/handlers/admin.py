@@ -34,7 +34,7 @@ async def cmd_add_model(message: Message):
         return
     args = message.text.split(maxsplit=1)
     if len(args) < 2:
-        await message.answer("Использование: /addmodel <имя>")
+        await message.answer("Использование: /addmodel [имя]")
         return
     name = args[1].strip()
     if db.get_model_by_name(name):
