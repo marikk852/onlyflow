@@ -112,6 +112,17 @@ def admin_enable(key: str, x_admin_token: Optional[str] = Header(None)):
     return {"ok": True}
 
 
+@app.post("/admin/licenses/reset-hardware/{key}")
+def admin_reset_hardware(key: str, hardware_id: str = "", x_admin_token: Optional[str] = Header(None)):
+    """Сброс привязки к железу. hardware_id — новый ID (опционально, иначе сброс в null)."""
+    check_admin(x_admin_token)
+    lic = db.get_license(key)
+    if not lic:
+        raise HTTPException(status_code=404, detail="Not found")
+    db.reset_hardware(key, hardware_id or None)
+    return {"ok": True, "hardware_id": hardware_id or None}
+
+
 @app.delete("/admin/licenses/{key}")
 def admin_delete(key: str, x_admin_token: Optional[str] = Header(None)):
     check_admin(x_admin_token)

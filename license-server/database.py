@@ -87,6 +87,12 @@ def enable_license(key: str):
         s.commit()
 
 
+def reset_hardware(key: str, hardware_id: Optional[str] = None):
+    with get_session() as s:
+        s.execute(update(License).where(License.key == key).values(hardware_id=hardware_id, activated_at=None))
+        s.commit()
+
+
 def delete_license(key: str):
     with get_session() as s:
         lic = s.scalar(select(License).where(License.key == key))
